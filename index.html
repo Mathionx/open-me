@@ -11,7 +11,7 @@
 html,body{height:100%;margin:0;overflow:hidden;touch-action:none;background:radial-gradient(ellipse at 50% 100%,var(--bg2),var(--bg1) 70%);color:#fff;font-family:Quicksand,system-ui,sans-serif;text-align:center}
 canvas{position:fixed;inset:0;width:100%;height:100%;z-index:1}
 .scr{position:fixed;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:env(safe-area-inset-top) 20px env(safe-area-inset-bottom)}
-.scr,h2,#wish,#btns,#hint,#tb,#hud,#mus,#ds,#gc{transition:opacity .8s}
+.scr,h2,#wish,#btns,#hint,#tb,#hud,#mus,#ds,#gc,#nx{transition:opacity .8s}
 .hide{opacity:0;pointer-events:none}
 h1,h2,#n{font-family:Pacifico,cursive;font-weight:400;color:var(--gold);text-shadow:0 0 18px rgba(255,126,182,.65);margin:.2em 0}
 h1{font-size:2.4rem}h2{font-size:1.9rem}
@@ -29,9 +29,9 @@ button{font:700 1rem Quicksand,sans-serif;border:0;border-radius:99px;padding:.8
 .c2{left:35px;bottom:90px;width:160px;height:62px;border-radius:12px;background:linear-gradient(#ff9ec8,var(--pink));box-shadow:inset 0 12px 0 #fff}
 .pl{left:-20px;bottom:0;width:270px;height:16px;border-radius:99px;background:#f3e6ff}
 .cd{left:50%;bottom:152px;width:10px;height:44px;margin-left:-5px;border-radius:3px;background:repeating-linear-gradient(45deg,#fff 0 6px,var(--pink) 6px 12px)}
-#flame{position:absolute;left:50%;top:-24px;width:14px;height:24px;margin-left:-7px;display:none;border-radius:50% 50% 50% 50%/65% 65% 35% 35%;background:radial-gradient(#fff 10%,var(--gold) 45%,#ff6a3d);box-shadow:0 0 22px 8px #ffb34766;animation:fl .15s infinite alternate}
-.lit #flame{display:block}
-.out #flame{display:block;background:#bbb9;box-shadow:none;animation:sm 2.2s forwards}
+.fm{position:absolute;left:50%;top:-24px;width:14px;height:24px;margin-left:-7px;display:none;border-radius:50% 50% 50% 50%/65% 65% 35% 35%;background:radial-gradient(#fff 10%,var(--gold) 45%,#ff6a3d);box-shadow:0 0 22px 8px #ffb34766;animation:fl .15s infinite alternate}
+.lit .fm{display:block}
+.out .fm{display:block;background:#bbb9;box-shadow:none;animation:sm 2.2s forwards}
 @keyframes fl{to{transform:scale(1.1,.92) rotate(3deg)}}
 @keyframes sm{to{transform:translateY(-70px) scale(2.5);opacity:0}}
 #wish{width:100%;max-width:340px;min-height:5.5em;display:flex;align-items:center;justify-content:center;padding:.8em 1em;border-radius:18px;background:#ffffff14;backdrop-filter:blur(6px)}
@@ -66,6 +66,17 @@ h1{animation:gl 2.4s ease-in-out infinite alternate}
 .rv{position:relative;width:280px;height:140px;margin:1em 0;border-radius:16px;background:#ffffff1a;display:flex;align-items:center;justify-content:center;padding:.8em;font-weight:700}
 .rv canvas{position:absolute;inset:0;width:100%;height:100%;border-radius:16px;transition:opacity 1s}
 @media (max-height:700px){.cake{transform:scale(.8);margin:-12px 0 -16px}}
+
+.pl{background:linear-gradient(#fff,#d9c3f5);box-shadow:0 8px 18px #0006}
+.c1::after,.c2::after{content:"";position:absolute;left:0;right:0;height:14px;background:radial-gradient(circle at 14px 0,#fff 10px,transparent 11px) 0 0/28px 14px repeat-x}
+.c1::after{top:13px}.c2::after{top:11px;background-size:22px 12px;background-image:radial-gradient(circle at 11px 0,#fff 8px,transparent 9px)}
+.c2::before{content:"";position:absolute;inset:22px 6px 4px;background:radial-gradient(circle,#ffd36e 2px,transparent 3px) 4px 6px/26px 20px,radial-gradient(circle,#7fe0ff 2px,transparent 3px) 17px 16px/26px 20px,radial-gradient(circle,#fff 2px,transparent 3px) 10px 2px/26px 20px}
+.pr{left:0;bottom:14px;width:230px;height:12px;background:radial-gradient(circle,#fff9 4px,transparent 5px) 0 0/16px 12px repeat-x}
+.st{bottom:146px;font-size:20px;line-height:1}
+.tx{left:0;width:230px;bottom:34px;font:22px Pacifico,cursive;color:var(--gold);text-shadow:0 1px 6px #0006}
+.cd.l,.cd.r{height:34px;left:36%}.cd.r{left:64%}
+.sp{font-size:20px;animation:tw 2.4s ease-in-out infinite}
+@keyframes tw{50%{opacity:.25;transform:scale(.7)}}
 @media (prefers-reduced-motion:reduce){.bal{animation-duration:20s!important}}
 </style>
 </head>
@@ -87,13 +98,18 @@ h1{animation:gl 2.4s ease-in-out infinite alternate}
   <div id="n">0</div>
   <h2 id="agh" class="hide">Happy Birthday, Selu!</h2>
   <p id="ds" class="hide"></p>
+  <button id="nx" class="hide">Show me my cake 🎂</button>
 </div>
 
 <div class="scr hide" id="cs">
   <h2 id="ttl" class="hide">Happy Birthday, Selu! 🎂</h2>
   <div class="cake" id="cake">
-    <div class="pl"></div><div class="c1"></div><div class="c2"></div>
-    <div class="cd"><i id="flame"></i></div>
+    <div class="pl"></div><div class="c1"></div>
+        <div class="pr"></div><div class="c2"></div>
+    <div class="st" style="left:44px">🍓</div><div class="st" style="left:88px">🍓</div><div class="st" style="left:120px">🍓</div><div class="st" style="left:164px">🍓</div>
+    <div class="tx">Selu 💖</div>
+    <div class="cd l"><i class="fm"></i></div><div class="cd"><i class="fm"></i></div><div class="cd r"><i class="fm"></i></div>
+    <div class="sp" style="left:-34px;top:70px">✨</div><div class="sp" style="right:-34px;top:40px;animation-delay:.8s">✨</div><div class="sp" style="right:-24px;top:120px;animation-delay:1.5s">⭐</div>
   </div>
   <p id="hint">Tap the candle to light it 🕯️</p>
   <div id="wish" class="hide"></div>
@@ -134,7 +150,7 @@ h1{animation:gl 2.4s ease-in-out infinite alternate}
 (()=>{
 const $=id=>document.getElementById(id),cv=$('cv'),cx=cv.getContext('2d'),sl=ms=>new Promise(r=>setTimeout(r,ms));
 let W,H,P=[],st=-1,G=null,gn=0,amb,fi,M=[],au=new Audio('music.mp3');
-au.loop=true;au.volume=.7;
+au.loop=true;au.volume=.7;au.preload='auto';au.load();let mu=0;
 const WS=['Selu, today is your day, so smile, you deserve it 🌸','May this new year bring you peace, laughter and everything your heart is asking for ✨','22 looks good on you. Go be unstoppable 💪','No more bored birthdays. This one is all yours 🎉','You make the world around you brighter just by being in it 💛'];
 const WB=['You deserve all the happiness 🌷','Be proud of how far you’ve come 💫','Today the world celebrates you 🌍','More laughter, less stress 😄','Dream big, Selu ✨','You are loved more than you know 💗','Eat extra cake today 🍰','Your best year starts now 🚀'];
 const stars=Array.from({length:70},()=>({x:Math.random(),y:Math.random(),r:Math.random()*1.4+.3,p:Math.random()*6}));
@@ -166,8 +182,8 @@ async function unlock(){
   $('lk').classList.add('hide');$('er').textContent='';
   au.play().catch(()=>{});fire(W/2,H/2);fire();
   $('mus').classList.remove('hide');$('ag').classList.remove('hide');
-  let a=0;const iv=setInterval(()=>{$('n').textContent=++a;if(a>=22){clearInterval(iv);$('agh').classList.remove('hide');fire(W/2,H*.4);fire();daysIn()}},75);
-  await sl(5800);
+  let a=0;const iv=setInterval(()=>{$('n').textContent=++a;if(a>=22){clearInterval(iv);$('agh').classList.remove('hide');fire(W/2,H*.4);fire();daysIn();setTimeout(()=>$('nx').classList.remove('hide'),2500)}},75);
+  await new Promise(r=>{$('nx').onclick=r});
   $('ag').classList.add('hide');$('cs').classList.remove('hide');st=0;
 }
 $('go').onclick=unlock;
@@ -229,9 +245,9 @@ $('sf').onclick=()=>{resetSk();$('sc').classList.remove('hide')};
 $('sx').onclick=()=>$('sc').classList.add('hide');
 $('cl').onclick=()=>$('gift').classList.add('hide');
 $('rp').onclick=()=>{$('gift').classList.add('hide');[0,250,500,750,1000,1300].forEach(d=>setTimeout(fire,d))};
-$('mus').onclick=()=>{if(au.paused){au.play();$('mus').textContent='🔊'}else{au.pause();$('mus').textContent='🔇'}};
+$('mus').onclick=()=>{if(au.paused){mu=0;au.play().catch(()=>{});$('mus').textContent='🔊'}else{mu=1;au.pause();$('mus').textContent='🔇'}};
 
-document.addEventListener('pointerdown',e=>{if(st==2&&!e.target.closest('button,input,#sk'))burst(e.clientX,e.clientY,Math.random()*360,45,4)});
+document.addEventListener('pointerdown',e=>{if(st>=0&&!mu&&au.paused)au.play().catch(()=>{});if(st==2&&!e.target.closest('button,input,#sk'))burst(e.clientX,e.clientY,Math.random()*360,45,4)});
 document.addEventListener('pointermove',e=>{burst(e.clientX,e.clientY,45,2,.8)});
 })();
 </script>
