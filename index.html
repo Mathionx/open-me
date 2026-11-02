@@ -18,8 +18,11 @@ h1{font-size:2.4rem}h2{font-size:1.9rem}
 p{margin:.4em 0;max-width:330px;line-height:1.5}
 #n{font-size:8rem;line-height:1}
 input{width:min(80vw,320px);margin:.8em 0;padding:.8em 1.2em;border-radius:99px;border:2px solid var(--pink);background:#ffffff14;color:#fff;font:700 1.1rem Quicksand,sans-serif;text-align:center;outline:none}
-input:focus-visible,button:focus-visible{outline:3px solid var(--gold)}
-button{font:700 1rem Quicksand,sans-serif;border:0;border-radius:99px;padding:.8em 1.3em;margin:.3em;background:linear-gradient(135deg,var(--pink),var(--gold));color:#2a0b3a;box-shadow:0 6px 20px #ff7eb655;cursor:pointer}
+
+/*input:focus-visible,button:focus-visible{outline:3px solid var(--gold)}*/
+button{font:700 1rem Quicksand,sans-serif;border:0;border-radius:99px;padding: 1em 1.3em;margin:.3em;background:linear-gradient(135deg,var(--pink),var(--gold));color:#2a0b3a;box-shadow:0 6px 20px #ff7eb655;cursor:pointer;
+    width: 300px;
+}
 .sh{animation:shake .35s}
 @keyframes shake{25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
 #er{color:var(--pink);min-height:1.5em}
@@ -43,7 +46,35 @@ button{font:700 1rem Quicksand,sans-serif;border:0;border-radius:99px;padding:.8
 #tb{bottom:14%;left:50%;transform:translateX(-50%);width:max-content;max-width:86vw;padding:.7em 1.2em;border-radius:16px;background:#2a0b3aee;border:1px solid var(--pink);font-weight:700}
 #mus{top:calc(env(safe-area-inset-top) + 10px);right:10px;padding:.5em .8em;margin:0}
 #gift{z-index:9;background:#12061fe6}
-.mo{z-index:9;background:#12061fe6}
+.mo {
+  z-index: 9;
+  background: #12061fe6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+#gc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 320px;
+}
+
+.card {
+  width: 100%;
+  padding: 1.2em;
+  margin-bottom: .8em;
+  border-radius: 20px;
+  border: 2px solid var(--gold);
+  background: linear-gradient(160deg,#5a1f6e,#2a0b3a);
+  box-shadow: 0 0 30px #ff7eb655;
+}
+
 #gb{font-size:3rem;animation:bn 1.2s ease-in-out infinite}
 @keyframes bn{50%{transform:translateY(-14px)}}
 h1{animation:gl 2.4s ease-in-out infinite alternate}
@@ -53,7 +84,8 @@ h1{animation:gl 2.4s ease-in-out infinite alternate}
 .fl{position:fixed;bottom:-40px;z-index:2;pointer-events:none;animation:fy var(--d) linear forwards}
 @keyframes fy{to{transform:translate(var(--x),-115vh) rotate(25deg)}}
 #btns{display:flex;flex-wrap:wrap;justify-content:center;max-width:340px}
-#btns button{padding:.6em 1em;font-size:.9rem}
+#btns button{padding:.8em 1.6em;font-size:1rem}
+.bal.bk{z-index:3;pointer-events:none;opacity:.55}
 .ln{position:fixed;bottom:-90px;z-index:6;pointer-events:none;font-size:3rem;filter:drop-shadow(0 0 14px #ffb347);animation:ly 16s ease-in forwards}
 .ln span{display:block;font:700 .75rem Quicksand,sans-serif;max-width:120px;margin:0 auto;text-shadow:0 0 6px #000}
 @keyframes ly{to{transform:translate(var(--x),-130vh)}}
@@ -78,6 +110,17 @@ h1{animation:gl 2.4s ease-in-out infinite alternate}
 .sp{font-size:20px;animation:tw 2.4s ease-in-out infinite}
 @keyframes tw{50%{opacity:.25;transform:scale(.7)}}
 @media (prefers-reduced-motion:reduce){.bal{animation-duration:20s!important}}
+
+#mus {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    font-size: 1.3em;
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+}
 </style>
 </head>
 <body>
@@ -114,10 +157,8 @@ h1{animation:gl 2.4s ease-in-out infinite alternate}
   <p id="hint">Tap the candle to light it 🕯️</p>
   <div id="wish" class="hide"></div>
   <div id="btns" class="hide">
-    <button id="gm">🎈 Pop 22 in 22s</button>
-    <button id="wf">🏮 Send a wish</button>
-    <button id="sf">🎟️ Scratch card</button>
-    <button id="gf">🎁 Open your gift</button>
+    <button id="nb">Next 💫</button>
+    <button id="skp" class="hide">Skip</button>
   </div>
 </div>
 
@@ -150,7 +191,7 @@ h1{animation:gl 2.4s ease-in-out infinite alternate}
 (()=>{
 const $=id=>document.getElementById(id),cv=$('cv'),cx=cv.getContext('2d'),sl=ms=>new Promise(r=>setTimeout(r,ms));
 let W,H,P=[],st=-1,G=null,gn=0,amb,fi,M=[],au=new Audio('music.mp3');
-au.loop=true;au.volume=.7;au.preload='auto';au.load();let mu=0;
+au.loop=true;au.volume=.7;au.preload='auto';au.load();let mu=0;au.oncanplay=()=>{if(st>=0&&!mu&&au.paused)au.play().catch(()=>{})};
 const WS=['Selu, today is your day, so smile, you deserve it 🌸','May this new year bring you peace, laughter and everything your heart is asking for ✨','22 looks good on you. Go be unstoppable 💪','No more bored birthdays. This one is all yours 🎉','You make the world around you brighter just by being in it 💛'];
 const WB=['You deserve all the happiness 🌷','Be proud of how far you’ve come 💫','Today the world celebrates you 🌍','More laughter, less stress 😄','Dream big, Selu ✨','You are loved more than you know 💗','Eat extra cake today 🍰','Your best year starts now 🚀'];
 const stars=Array.from({length:70},()=>({x:Math.random(),y:Math.random(),r:Math.random()*1.4+.3,p:Math.random()*6}));
@@ -179,7 +220,7 @@ const ok=v=>{const n=(v.toLowerCase().replace(/nov\w*/,' 11 ').match(/\d+/g)||[]
 async function unlock(){
   const pw=$('pw');
   if(!ok(pw.value)){$('er').textContent='Hmm, that’s not it 😏 think about the day you were born';pw.classList.remove('sh');void pw.offsetWidth;pw.classList.add('sh');return}
-  $('lk').classList.add('hide');$('er').textContent='';
+  $('lk').classList.add('hide');$('er').textContent='';clearInterval(fi);document.querySelectorAll('.fl').forEach(e=>e.remove());
   au.play().catch(()=>{});fire(W/2,H/2);fire();
   $('mus').classList.remove('hide');$('ag').classList.remove('hide');
   let a=0;const iv=setInterval(()=>{$('n').textContent=++a;if(a>=22){clearInterval(iv);$('agh').classList.remove('hide');fire(W/2,H*.4);fire();daysIn();setTimeout(()=>$('nx').classList.remove('hide'),2500)}},75);
@@ -195,18 +236,21 @@ $('cake').onclick=async()=>{
   else if(st==1){st=2;out()}
 };
 function out(){
-  $('cake').classList.replace('lit','out');$('hint').classList.add('hide');
-  ['ttl','wish','btns'].forEach(i=>$(i).classList.remove('hide'));
-  [0,400,800,1300,1800].forEach(d=>setTimeout(fire,d));
-  setInterval(()=>{if(Math.random()<.8)fire()},1100);
-  for(let i=0;i<10;i++)setTimeout(balloon,i*350);
-  amb=setInterval(balloon,1600);typeLoop();
+  $('cake').classList.replace('lit','out');$('hint').classList.add('hide');$('ttl').classList.remove('hide');
+  [0,300,600,900,1300,1700,2200,2700,3300,3900,4600,5300].forEach(d=>setTimeout(fire,d));
+  for(let i=0;i<12;i++)setTimeout(balloon,i*400);
+  setTimeout(()=>{document.querySelectorAll('.bal').forEach(e=>e.classList.add('bk'));$('wish').classList.remove('hide');typeLoop();setInterval(()=>{if(Math.random()<.35)fire()},3500);amb=setInterval(()=>balloon(1),4500);setTimeout(nextBtn,5000)},7000);
 }
+let stp=0;const LAB=['Next 💫','Next 💫','Next 💫','Open your gift 🎁'];
+function nextBtn(){$('nb').textContent=LAB[stp];$('skp').classList.add('hide');$('btns').classList.remove('hide')}
+function adv(n){if(stp==n){stp++;setTimeout(nextBtn,700)}}
+$('nb').onclick=()=>{$('btns').classList.add('hide');[openScratch,openWish,startGame,openGift][stp]()};
+$('skp').onclick=()=>{$('btns').classList.add('hide');adv(2)};
 async function typeLoop(){const el=$('wish');for(let i=0;;i++){const s=WS[i%WS.length];el.textContent='';for(const ch of s){el.textContent+=ch;await sl(45)}await sl(2600)}}
 
-function balloon(){
+function balloon(bk){
   const h=[330,45,280,350,200][Math.random()*5|0]+Math.random()*20,s=54+Math.random()*24,e=document.createElement('div');
-  e.className='bal';
+  e.className='bal'+(bk===1?' bk':'');
   e.style.cssText=`left:${5+Math.random()*80}%;--s:${s}px;--c:hsl(${h} 85% 65%);--x:${Math.random()*80-40}px;--d:${G?4+Math.random()*2:8+Math.random()*4}s`;
   e.onpointerdown=ev=>{ev.stopPropagation();pop(e,h)};
   e.onanimationend=()=>e.remove();
@@ -218,33 +262,34 @@ function pop(e,h){
 }
 function toast(t,ms=2600){const b=$('tb');b.textContent=t;b.classList.remove('hide');clearTimeout(b.k);b.k=setTimeout(()=>b.classList.add('hide'),ms)}
 
-$('gm').onclick=()=>{
-  if(G)return;clearInterval(amb);gn=0;let t=22;
+function startGame(){
+  if(G)return;toast('Pop 22 balloons in 22 seconds! 🎈',2200);clearInterval(amb);gn=0;let t=22;
   const u=()=>{$('hud').textContent=`🎈 ${gn}/22  ·  ⏱ ${t}s`};
   G={u,sp:setInterval(balloon,420),tm:setInterval(()=>{t--;u();if(t<=0)end(false)},1000)};
   u();$('hud').classList.remove('hide');
-};
+}
 function end(win){
   if(!G)return;clearInterval(G.sp);clearInterval(G.tm);G=null;$('hud').classList.add('hide');
   toast(win?'You’re the Birthday Queen 👑🎉':'So close! Try again 😄',3800);
   if(win)[0,300,600,900].forEach(d=>setTimeout(fire,d));
-  $('gm').textContent='🎈 Play again';amb=setInterval(balloon,1600);
+  amb=setInterval(()=>balloon(1),4500);document.querySelectorAll('.bal').forEach(e=>e.classList.add('bk'));
+  if(win)adv(2);else setTimeout(()=>{nextBtn();$('nb').textContent='Try again 🎈';$('skp').classList.remove('hide')},1800);
 }
 
-$('gf').onclick=async()=>{const b=$('gbx'),c=$('gc');c.classList.add('hide');b.className='';b.style.display='';$('gift').classList.remove('hide');await sl(1500);b.className='bst';[0,200,400,600].forEach(d=>setTimeout(fire,d));await sl(500);b.style.display='none';c.classList.remove('hide')};
-$('wf').onclick=()=>{$('wm').classList.remove('hide');$('wi').value='';setTimeout(()=>$('wi').focus(),300)};
-$('wc').onclick=()=>$('wm').classList.add('hide');
-function sendWish(){const v=$('wi').value.trim();if(!v)return;const e=document.createElement('div');e.className='ln';e.innerHTML='🏮<span></span>';e.lastChild.textContent=v;e.style.cssText=`left:${15+Math.random()*60}%;--x:${Math.random()*60-30}px`;e.onanimationend=()=>e.remove();document.body.append(e);$('wm').classList.add('hide');toast('Your wish is on its way to the sky 🏮✨',3000);burst(W/2,H*.6,40,40,3)}
+async function openGift(){const b=$('gbx'),c=$('gc');c.classList.add('hide');b.className='';b.style.display='';$('gift').classList.remove('hide');await sl(1500);b.className='bst';[0,200,400,600].forEach(d=>setTimeout(fire,d));await sl(500);b.style.display='none';c.classList.remove('hide')}
+function openWish(){$('wm').classList.remove('hide');$('wi').value='';setTimeout(()=>$('wi').focus(),300)}
+$('wc').onclick=()=>{$('wm').classList.add('hide');adv(1)};
+function sendWish(){const v=$('wi').value.trim();if(!v)return;const e=document.createElement('div');e.className='ln';e.innerHTML='🏮<span></span>';e.lastChild.textContent=v;e.style.cssText=`left:${15+Math.random()*60}%;--x:${Math.random()*60-30}px`;e.onanimationend=()=>e.remove();document.body.append(e);$('wm').classList.add('hide');adv(1);toast('Your wish is on its way to the sky 🏮✨',3000);burst(W/2,H*.6,40,40,3)}
 $('ws').onclick=sendWish;$('wi').onkeydown=e=>{if(e.key=='Enter')sendWish()};
 const sk=$('sk'),sg=sk.getContext('2d');let sd=0,dn=0;
 function resetSk(){dn=0;sk.style.opacity=1;sg.globalCompositeOperation='source-over';const g=sg.createLinearGradient(0,0,280,140);g.addColorStop(0,'#d9d9e6');g.addColorStop(.5,'#9d9db0');g.addColorStop(1,'#d9d9e6');sg.fillStyle=g;sg.fillRect(0,0,280,140);sg.fillStyle='#4a4a60';sg.font='700 18px Quicksand,sans-serif';sg.textAlign='center';sg.fillText('Scratch here ✨',140,76)}
 function scratch(e){if(!sd||dn)return;const r=sk.getBoundingClientRect();sg.globalCompositeOperation='destination-out';sg.beginPath();sg.arc((e.clientX-r.left)*280/r.width,(e.clientY-r.top)*140/r.height,18,0,6.283);sg.fill()}
 sk.onpointerdown=e=>{sd=1;scratch(e)};sk.onpointermove=scratch;
 sk.onpointerup=sk.onpointerleave=()=>{if(!sd)return;sd=0;const a=sg.getImageData(0,0,280,140).data;let c=0;for(let i=3;i<a.length;i+=16)if(!a[i])c++;if(c>a.length/16*.5&&!dn){dn=1;sk.style.opacity=0;[0,250,500].forEach(d=>setTimeout(fire,d))}};
-$('sf').onclick=()=>{resetSk();$('sc').classList.remove('hide')};
-$('sx').onclick=()=>$('sc').classList.add('hide');
-$('cl').onclick=()=>$('gift').classList.add('hide');
-$('rp').onclick=()=>{$('gift').classList.add('hide');[0,250,500,750,1000,1300].forEach(d=>setTimeout(fire,d))};
+function openScratch(){resetSk();$('sc').classList.remove('hide')}
+$('sx').onclick=()=>{$('sc').classList.add('hide');adv(0)};
+$('cl').onclick=()=>{$('gift').classList.add('hide');setTimeout(nextBtn,500)};
+$('rp').onclick=()=>{$('gift').classList.add('hide');[0,250,500,750,1000,1300].forEach(d=>setTimeout(fire,d));setTimeout(nextBtn,1800)};
 $('mus').onclick=()=>{if(au.paused){mu=0;au.play().catch(()=>{});$('mus').textContent='🔊'}else{mu=1;au.pause();$('mus').textContent='🔇'}};
 
 document.addEventListener('pointerdown',e=>{if(st>=0&&!mu&&au.paused)au.play().catch(()=>{});if(st==2&&!e.target.closest('button,input,#sk'))burst(e.clientX,e.clientY,Math.random()*360,45,4)});
